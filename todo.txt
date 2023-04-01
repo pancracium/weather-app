@@ -7,3 +7,5 @@ Add the ability to switch between different languages for the app.
 Display the current air quality index (AQI) for the selected city.
 
 Add a feature that allows the user to customize the background color and font of the app.
+
+Finish the show_list() method to allow the user select which things will appear on the weather label.

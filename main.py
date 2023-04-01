@@ -16,9 +16,9 @@ class WeatherApp:
         self.master.iconbitmap("icon.ico")
         self.master["background"] = "grey20"
         #Set up a font
-        self.weather_font = ("Roboto", 20, "normal")
-        self.entry_font = ("Roboto", 20, "normal")
-        self.button_font = ("Roboto", 15, "bold")
+        self.weather_font = ["Roboto", 20, "normal"]
+        self.entry_font = ["Roboto", 20, "normal"]
+        self.button_font = ["Roboto", 15, "bold"]
         #Set up the APIs by reading the api.txt file
         with open("api.txt", "r") as file:
             text = file.read()
@@ -83,7 +83,20 @@ class WeatherApp:
                                                         background="grey80", activebackground="grey60", 
                                                         relief="flat", highlightthickness=0, borderwidth=0, 
                                                         width=64, height=64, command=self.change_background_color)
-        self.change_background_color_button.place(relx=0.07, rely=0.9, anchor=tk.CENTER)
+        self.change_background_color_button.place(relx=0.06, rely=0.9, anchor=tk.CENTER)
+        #Dropdown for changing the font
+        fonts = ["Roboto", "Calibri", "Arial", "Times New Roman", "Comic Sans", "Consolas", "Courier"]
+        self.font_dropdown = ttk.Combobox(self.master, values=fonts, style="TCombobox", font=self.button_font,
+                                          width=14, state="readonly")
+        self.font_dropdown.current(0)
+        self.font_dropdown.place(relx=0.2, rely=0.9, anchor=tk.CENTER)
+        self.font_dropdown.bind("<<ComboboxSelected>>", self.change_font)
+        #Button for showing a new toplevel window with a list of what things you want to be shown in the weather label
+        self.list_button = tk.Button(self.master, text="CONFIGURE", font=self.button_font, 
+                                       background="grey80", activebackground="grey60", 
+                                       relief="flat", highlightthickness=0, borderwidth=0, 
+                                       command=self.show_list)
+        self.list_button.place(relx=0.4, rely=0.9, anchor=tk.CENTER)
     
     def display_weather_data(self, city:str, temp_unit:str, pressure_unit:str, time_format:str):
         """Display the weather in the label."""
@@ -176,6 +189,72 @@ class WeatherApp:
         color = colorchooser.askcolor(title="Change background color")[1]
         if color:
             self.master["background"] = color
+    
+    def change_font(self, event=None):
+        """Change the font of the widgets."""
+        # Get the selected font from the font dropdown
+        font_family = self.font_dropdown.get()
+        # Change the font of the widgets
+        self.weather_font[0] = font_family
+        self.entry_font[0] = font_family
+        self.button_font[0] = font_family
+        self.city_entry.config(font=self.entry_font)
+        self.search_button.config(font=self.button_font)
+        self.clear_button.config(font=self.button_font)
+        self.weather_label.config(font=self.weather_font)
+        self.temperature_dropdown.config(font=self.button_font)
+        self.pressure_dropdown.config(font=self.button_font)
+        self.time_format_dropdown.config(font=self.button_font)
+        self.font_dropdown.config(font=self.button_font)
+    
+    def show_list(self):
+        """Let the user pick what things will appear on the weather label."""
+        #Create a new toplevel window
+        options_window = tk.Toplevel(root)
+        options_window.title("Select Options")
+        options_window.iconbitmap("icon.ico")
+        options_window.geometry("400x300+760+370")
+        #Create checkboxes for every item
+        message_label = tk.Label(options_window, text="Select items to display in the weather label: ")
+        message_label.pack()
+        name_var = tk.BooleanVar()
+        name_checkbox = tk.Checkbutton(options_window, text="City Name", variable=name_var)
+        name_checkbox.pack()
+        postal_code_var = tk.BooleanVar()
+        postal_code_checkbox = tk.Checkbutton(options_window, text="Postal Code", variable=postal_code_var)
+        postal_code_checkbox.pack()
+        country_var = tk.BooleanVar()
+        country_checkbox = tk.Checkbutton(options_window, text="Country", variable=country_var)
+        country_checkbox.pack()
+        coordinates_var = tk.BooleanVar()
+        coordinates_checkbox = tk.Checkbutton(options_window, text="Latitude and longitude", variable=coordinates_var)
+        coordinates_checkbox.pack()
+        time_and_date_var = tk.BooleanVar()
+        time_and_date_checkbox = tk.Checkbutton(options_window, text="Time and date", variable=time_and_date_var)
+        time_and_date_checkbox.pack()
+        temperature_var = tk.BooleanVar()
+        temperature_checkbox = tk.Checkbutton(options_window, text="Temperature", variable=temperature_var)
+        temperature_checkbox.pack()
+        pressure_var = tk.BooleanVar()
+        pressure_checkbox = tk.Checkbutton(options_window, text="Pressure", variable=pressure_var)
+        pressure_checkbox.pack()
+        humidity_var = tk.BooleanVar()
+        humidity_checkbox = tk.Checkbutton(options_window, text="Humidity", variable=humidity_var)
+        humidity_checkbox.pack()
+        observations_var = tk.BooleanVar()
+        observations_checkbox = tk.Checkbutton(options_window, text="Observations", variable=observations_var)
+        observations_checkbox.pack()
+        def sumbit():
+            options_window.destroy()
+            print({"name":name_var, "postal_code":postal_code_var, "country":country_var, "coordinates":coordinates_var,
+                    "time_and_date":time_and_date_var, "temperature":temperature_var, "pressure":pressure_var, "humidity":humidity_var,
+                    "observations":observations_var})
+            return {"name":name_var, "postal_code":postal_code_var, "country":country_var, "coordinates":coordinates_var,
+                    "time_and_date":time_and_date_var, "temperature":temperature_var, "pressure":pressure_var, "humidity":humidity_var,
+                    "observations":observations_var}
+        #Add a button to allow the user to submit their selection
+        submit_button = tk.Button(options_window, text="Submit", command=sumbit)
+        submit_button.pack()
 
 #Create a window and run the app
 if __name__ == "__main__":
