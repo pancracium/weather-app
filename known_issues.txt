@@ -1,0 +1,1 @@
+Sometimes, if the postal code of a city could not be find, the city's weather and info will simply not be shown.

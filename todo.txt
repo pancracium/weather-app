@@ -1,0 +1,9 @@
+Allow the user to save their favorite cities and quickly switch between them.
+
+Add icons to represent the weather conditions (e.g. a sun icon for clear skies, a cloud icon for cloudy weather, etc.).
+
+Add the ability to switch between different languages for the app.
+
+Display the current air quality index (AQI) for the selected city.
+
+Add a feature that allows the user to customize the background color and font of the app.
