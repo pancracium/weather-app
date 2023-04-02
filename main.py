@@ -1,3 +1,7 @@
+################################################################
+# WEATHER APP MADE IN PYTHON BY https://www.github.com/pancracium (v0.3 [02-04-2023]) #
+################################################################
+
 #Import necessary modules
 import datetime
 import json
