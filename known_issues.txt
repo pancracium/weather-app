@@ -1,1 +1,4 @@
 Sometimes, if the postal code of a city could not be find, the city's weather and info will simply not be shown.
+
+In the font size spinbox, if you try to type in, for example, "27", it will say that the font can't be less than 5, because "27" starts with "2", and any key release is bound
+to the change_font_size method, so you'll have to first press "2", and without releasing the "2" key, rapidly press the "7" key in order for it to work.
