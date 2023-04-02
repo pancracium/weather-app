@@ -91,12 +91,6 @@ class WeatherApp:
         self.font_dropdown.current(0)
         self.font_dropdown.place(relx=0.2, rely=0.9, anchor=tk.CENTER)
         self.font_dropdown.bind("<<ComboboxSelected>>", self.change_font)
-        #Button for showing a new toplevel window with a list of what things you want to be shown in the weather label
-        self.list_button = tk.Button(self.master, text="CONFIGURE", font=self.button_font, 
-                                       background="grey80", activebackground="grey60", 
-                                       relief="flat", highlightthickness=0, borderwidth=0, 
-                                       command=self.show_list)
-        self.list_button.place(relx=0.4, rely=0.9, anchor=tk.CENTER)
     
     def display_weather_data(self, city:str, temp_unit:str, pressure_unit:str, time_format:str):
         """Display the weather in the label."""
@@ -206,55 +200,6 @@ class WeatherApp:
         self.pressure_dropdown.config(font=self.button_font)
         self.time_format_dropdown.config(font=self.button_font)
         self.font_dropdown.config(font=self.button_font)
-    
-    def show_list(self):
-        """Let the user pick what things will appear on the weather label."""
-        #Create a new toplevel window
-        options_window = tk.Toplevel(root)
-        options_window.title("Select Options")
-        options_window.iconbitmap("icon.ico")
-        options_window.geometry("400x300+760+370")
-        #Create checkboxes for every item
-        message_label = tk.Label(options_window, text="Select items to display in the weather label: ")
-        message_label.pack()
-        name_var = tk.BooleanVar()
-        name_checkbox = tk.Checkbutton(options_window, text="City Name", variable=name_var)
-        name_checkbox.pack()
-        postal_code_var = tk.BooleanVar()
-        postal_code_checkbox = tk.Checkbutton(options_window, text="Postal Code", variable=postal_code_var)
-        postal_code_checkbox.pack()
-        country_var = tk.BooleanVar()
-        country_checkbox = tk.Checkbutton(options_window, text="Country", variable=country_var)
-        country_checkbox.pack()
-        coordinates_var = tk.BooleanVar()
-        coordinates_checkbox = tk.Checkbutton(options_window, text="Latitude and longitude", variable=coordinates_var)
-        coordinates_checkbox.pack()
-        time_and_date_var = tk.BooleanVar()
-        time_and_date_checkbox = tk.Checkbutton(options_window, text="Time and date", variable=time_and_date_var)
-        time_and_date_checkbox.pack()
-        temperature_var = tk.BooleanVar()
-        temperature_checkbox = tk.Checkbutton(options_window, text="Temperature", variable=temperature_var)
-        temperature_checkbox.pack()
-        pressure_var = tk.BooleanVar()
-        pressure_checkbox = tk.Checkbutton(options_window, text="Pressure", variable=pressure_var)
-        pressure_checkbox.pack()
-        humidity_var = tk.BooleanVar()
-        humidity_checkbox = tk.Checkbutton(options_window, text="Humidity", variable=humidity_var)
-        humidity_checkbox.pack()
-        observations_var = tk.BooleanVar()
-        observations_checkbox = tk.Checkbutton(options_window, text="Observations", variable=observations_var)
-        observations_checkbox.pack()
-        def sumbit():
-            options_window.destroy()
-            print({"name":name_var, "postal_code":postal_code_var, "country":country_var, "coordinates":coordinates_var,
-                    "time_and_date":time_and_date_var, "temperature":temperature_var, "pressure":pressure_var, "humidity":humidity_var,
-                    "observations":observations_var})
-            return {"name":name_var, "postal_code":postal_code_var, "country":country_var, "coordinates":coordinates_var,
-                    "time_and_date":time_and_date_var, "temperature":temperature_var, "pressure":pressure_var, "humidity":humidity_var,
-                    "observations":observations_var}
-        #Add a button to allow the user to submit their selection
-        submit_button = tk.Button(options_window, text="Submit", command=sumbit)
-        submit_button.pack()
 
 #Create a window and run the app
 if __name__ == "__main__":
